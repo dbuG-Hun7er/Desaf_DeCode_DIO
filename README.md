@@ -1,4 +1,6 @@
+arquivos salvos para estudos futuros
 # Desaf_DeCode_DIO
+ 
  Desafios de Códigos com IAs Generativas  
  Bootcamp Nexa - Fundamentos de IA Generativa e Claude 3
 om uma introdução sólida não somente a Inteligência Artificial 
