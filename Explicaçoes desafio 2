@@ -1,0 +1,170 @@
+class ModeloIA:
+    def __init__(self, nome, desempenho, velocidade, custo, capacidades):
+        self.nome = nome
+        self.desempenho = desempenho
+        self.velocidade = velocidade
+        self.custo = custo
+        self.capacidades = capacidades
+    
+    def __str__(self):
+        return self.nome
+
+# TODO: Crie uma função que recebe as características desejadas e recomenda um modelo de IA com base nelas:   
+
+# TODO: Crie uma lista de 'ModeloIA' com suas características pontuadas na descrição:
+    
+
+    modelo_recomendado = None
+  # Aqui é convertido as capacidades inseridas pelo usuário para minúsculas:
+    capacidades_usuario = [capacidade.lower() for capacidade in caracteristicas['Capacidades']]
+
+    for modelo in modelos:
+        # Convertemos as capacidades do modelo para minúsculas:
+        capacidades_modelo = [capacidade.lower() for capacidade in modelo.capacidades]
+        
+        if all(capacidade in capacidades_usuario for capacidade in capacidades_modelo):
+            if modelo_recomendado is None or modelo.desempenho > modelo_recomendado.desempenho:
+                modelo_recomendado = modelo
+
+    return modelo_recomendado if modelo_recomendado else "Nenhum modelo encontrado."
+
+# Aqui temos a função que gera uma explicação para o modelo recomendado:
+def gerar_explicacao(modelo, caracteristicas):
+    if isinstance(modelo, ModeloIA):
+        explicacao = f"O {modelo.nome} é o modelo recomendado."
+        return explicacao
+    else:
+        return modelo
+
+# Aqui fica a função que solicita características desejadas ao usuário:
+def obter_caracteristicas():
+    caracteristicas = {}
+    caracteristicas['Desempenho'] = int(input())
+    caracteristicas['Velocidade'] = int(input())
+    caracteristicas['Custo'] = int(input())
+    capacidades = input().split(',')
+    caracteristicas['Capacidades'] = [capacidade.strip() for capacidade in capacidades]
+    return caracteristicas
+
+caracteristicas_entrada = obter_caracteristicas()
+melhor_modelo = recomendar_modelo(caracteristicas_entrada)
+explicacao = gerar_explicacao(melhor_modelo, caracteristicas_entrada)
+
+print(explicacao)
+-----------------------------------------------------------------------------------------------
+
+Explicações desafio pyhton 2
+
+Importação de Módulos
+import sys
+O módulo sys permite interagir com o interpretador Python. Neste código, sys.stdin.readline() é usado para ler a entrada do usuário.
+--------------------------------------------------------------------------------------------------------------------------------------
+Definição da Classe ModeloIA
+class ModeloIA:
+    def __init__(self, nome, desempenho, velocidade, custo, capacidades):
+        self.nome = nome
+        self.desempenho = desempenho
+        self.velocidade = velocidade
+        self.custo = custo
+        self.capacidades = capacidades
+    
+    def __str__(self):
+        return self.nome
+__init__: Este método é o construtor da classe. Ele inicializa uma instância de ModeloIA com os atributos nome, desempenho, velocidade, custo e capacidades.
+__str__: Este método retorna o nome do modelo quando a instância é convertida para string, facilitando a impressão.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Função recomendar_modelo
+def recomendar_modelo(caracteristicas, modelos):
+    modelo_recomendado = None
+    capacidades_usuario = [capacidade.lower() for capacidade in caracteristicas['Capacidades']]
+
+    for modelo in modelos:
+        capacidades_modelo = [capacidade.lower() for capacidade in modelo.capacidades]
+        
+        if all(capacidade in capacidades_modelo for capacidade in capacidades_usuario):
+            if modelo_recomendado is None or (
+                modelo.desempenho >= caracteristicas['Desempenho'] and
+                modelo.velocidade >= caracteristicas['Velocidade'] and
+                modelo.custo <= caracteristicas['Custo']
+            ):
+                modelo_recomendado = modelo
+
+    return modelo_recomendado if modelo_recomendado else "Nenhum modelo encontrado."
+Parâmetros:
+
+caracteristicas: Um dicionário com as características desejadas pelo usuário.
+modelos: Uma lista de instâncias de ModeloIA.
+Processo:
+
+Converte as capacidades do usuário para minúsculas.
+Itera sobre cada modelo na lista.
+Converte as capacidades do modelo para minúsculas.
+Verifica se todas as capacidades do usuário estão nas capacidades do modelo.
+Se um modelo atende às capacidades e é melhor (em desempenho, velocidade e custo) que o atual modelo_recomendado, ele é atualizado.
+Retorna o modelo recomendado ou uma mensagem de que nenhum modelo foi encontrado.
+-------------------------------------------------------------------------------------------------------------------------------------------
+Função gerar_explicacao
+def gerar_explicacao(modelo, caracteristicas):
+    if isinstance(modelo, ModeloIA):
+        explicacao = f"O {modelo.nome} é o modelo recomendado."
+        return explicacao
+    else:
+        return modelo
+Parâmetros:
+
+modelo: O modelo recomendado.
+caracteristicas: As características fornecidas pelo usuário.
+Processo:
+
+Verifica se modelo é uma instância de ModeloIA.
+Se sim, retorna uma explicação com o nome do modelo recomendado.
+Se não, retorna a mensagem "Nenhum modelo encontrado."
+-------------------------------------------------------------------------------
+
+Função obter_caracteristicas
+
+def obter_caracteristicas():
+    caracteristicas = {}
+    caracteristicas['Desempenho'] = int(sys.stdin.readline().strip())
+    caracteristicas['Velocidade'] = int(sys.stdin.readline().strip())
+    caracteristicas['Custo'] = int(sys.stdin.readline().strip())
+    capacidades = sys.stdin.readline().strip().split(',')
+    caracteristicas['Capacidades'] = [capacidade.strip() for capacidade in capacidades]
+    return caracteristicas
+Processo:
+Cria um dicionário vazio caracteristicas.
+Lê e converte as entradas do usuário para Desempenho, Velocidade e Custo.
+Lê a entrada de Capacidades, divide por vírgula e remove espaços extras.
+Retorna o dicionário caracteristicas
+-----------------------------------------------------------------------------------------
+Lista de Modelos
+modelos = [
+    ModeloIA("Claude 3 Sonnet", 8, 10, 6, ["pesquisa", "desenvolvimento acelerado", "codificação", "recuperação de informações"]),
+    ModeloIA("Claude 3 Haiku", 7, 9, 5, ["velocidade", "resumo de dados não estruturados"]),
+    ModeloIA("Claude 3 Opus", 9, 10, 5, ["pesquisa", "desenvolvimento acelerado"]),
+]
+
+Define uma lista de modelos de IA disponíveis com suas respectivas características.
+--------------------------------------------------------------------------------------------------------------------------------------
+
+Execução Principal
+caracteristicas_entrada = obter_caracteristicas()
+melhor_modelo = recomendar_modelo(caracteristicas_entrada, modelos)
+explicacao = gerar_explicacao(melhor_modelo, caracteristicas_entrada)
+
+print(explicacao)
+obter_caracteristicas: Lê as características do usuário.
+recomendar_modelo: Encontra o melhor modelo com base nas características fornecidas.
+gerar_explicacao: Gera uma explicação sobre o modelo recomendado.
+print: Imprime a explicação.
+---------------------------------------------------------------------------------------------------------
+Resumo
+O código define uma classe para modelos de IA com atributos como desempenho, velocidade, custo e capacidades.
+Uma função recomenda o melhor modelo com base nas características fornecidas.
+Outra função gera uma explicação para a recomendação.
+O código lê as características do usuário, encontra o melhor modelo e imprime uma explicação sobre a recomendação.
+
+
+
+
